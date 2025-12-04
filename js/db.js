@@ -1,6 +1,5 @@
-// Tiny IndexedDB wrapper
 const DB_NAME = "fruitseeker_db";
-const DB_VERSION = 1;
+const DB_VERSION = 5;
 const STORE_PRODUCTS = "products";
 const STORE_META = "meta";
 
@@ -57,17 +56,4 @@ export async function getAll(){
   });
   db.close();
   return all;
-}
-
-export async function getMeta(){
-  const db = await openDB();
-  const m = await new Promise((resolve, reject)=>{
-    const tx = db.transaction(STORE_META, "readonly");
-    const s = tx.objectStore(STORE_META);
-    const req = s.get("meta");
-    req.onsuccess = ()=> resolve(req.result?.v || {});
-    req.onerror = ()=> reject(req.error);
-  });
-  db.close();
-  return m;
 }
